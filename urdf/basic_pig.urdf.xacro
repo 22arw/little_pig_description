@@ -67,6 +67,11 @@
         <material>Gazebo/Blue</material>
     </gazebo>
 
+    <!-- Gazebo Interface -->
+    <gazebo reference="base_link">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
     <!-- Ackerman Steering Macro -->
     <xacro:macro name="ackerman_steering" params="prefix reflect">
 

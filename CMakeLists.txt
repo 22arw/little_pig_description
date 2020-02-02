@@ -8,3 +8,5 @@ catkin_package(
 
 include_directories(
 )
+
+install(DIRECTORY launch urdf DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})

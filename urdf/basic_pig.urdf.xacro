@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<robot name="basic_pig" 
+    xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Degree-to-radian conversions -->
+    <xacro:property name="degrees_45" value="0.785398163"/>
+    <xacro:property name="degrees_90" value="1.57079633"/>
+
+    <!-- Inertia Generator -->
+    <xacro:macro name="default_inertial" params="mass">
+        <inertial>
+            <mass value="${mass}" />
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+        </inertial>
+    </xacro:macro>
+
+    <!-- Basic Geometry of Body -->
+    <xacro:property name="body_length" value="1.91" />
+    <xacro:property name="body_width" value="0.680618" />
+    <xacro:property name="body_height" value="1.065022" />
+    <xacro:property name="body_mass" value="41" />
+
+    <!-- Front Wheel Properties -->
+    <xacro:property name="front_wheel_width" value=".254" />
+    <xacro:property name="front_wheel_diameter" value="0.605" />
+    <xacro:property name="front_wheel_mass" value="10" />
+
+    <!-- Rear Wheel Properties -->
+    <xacro:property name="rear_wheel_width" value="0.2794" />
+    <xacro:property name="rear_wheel_diameter" value="0.635" />
+    <xacro:property name="rear_wheel_mass" value="12" />
+
+    <!-- Main Body -->
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="${body_length} ${body_width} ${body_height}"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="${body_length} ${body_width} ${body_height}"/>
+            </geometry>
+        </collision>
+        <xacro:default_inertial mass="${body_mass}" />
+    </link>
+
+    <!-- Gazebo plugin for ROS Control -->
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/basic_pig</robotNamespace>
+        </plugin>
+    </gazebo>
+</robot>

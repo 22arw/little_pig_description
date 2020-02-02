@@ -41,10 +41,12 @@
     <!-- Front Wheel Properties -->
     <xacro:property name="front_wheel_width" value=".254" />
     <xacro:property name="front_wheel_diameter" value="0.605" />
+    <xacro:property name="front_wheel_mass" value="9.0"/>
 
     <!-- Rear Wheel Properties -->
     <xacro:property name="rear_wheel_width" value="0.2794" />
     <xacro:property name="rear_wheel_diameter" value="0.635" />
+    <xacro:property name="rear_wheel_mass" value="9.8"/>
 
     <!-- Main Body of Little Pig -->
     <link name="base_link">
@@ -202,11 +204,7 @@
                     <cylinder radius="${rear_wheel_diameter/2}" length="${rear_wheel_width}"/>
                 </geometry>
             </collision>
-            <inertial>
-                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-                <mass value="20.995"/>
-                <inertia ixx="0.996" ixy="0.0" ixz="0.0" iyy="0.612" iyz="0.0" izz="0.612"/>
-            </inertial>
+            <xacro:default_inertial mass="${rear_wheel_mass}" />
         </link>
 
         <!-- The Joint -->
@@ -215,20 +213,21 @@
             <parent link="base_link"/>
             <child link="rear_${suffix}_wheel"/>
             <origin xyz="-${body_length / 2.5} ${(body_width /2) * reflect} -${(body_height / 5) + (rear_wheel_diameter / 2)}" rpy="0.0 0.0 0.0"/>
+            <limit effort="${axle_eff_limit}" velocity="${axle_vel_limit}"/>
         </joint>
 
         <!-- Gazebo Interface -->
         <gazebo reference="rear_${suffix}_wheel">
-            <!-- <mu1 value="1.0"/>
+            <mu1 value="1.0"/>
             <mu2 value="1.0"/>
             <kp value="10000000.0" />
             <kd value="1.0" />
-            <fdir1 value="1 0 0"/> -->
+            <fdir1 value="1 0 0"/>
             <material>Gazebo/Black</material>
         </gazebo>
 
         <!-- The Transmission -->
-        <!-- <transmission name="base_to_rear_${suffix}_wheel_trans">
+        <transmission name="base_to_rear_${suffix}_wheel_trans">
             <type>transmission_interface/SimpleTransmission</type>
             <joint name="base_to_rear_${suffix}_wheel">
                 <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
@@ -237,7 +236,7 @@
                 <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
                 <mechanicalReduction>1</mechanicalReduction>
             </actuator>
-        </transmission> -->
+        </transmission>
 
     </xacro:macro>
 

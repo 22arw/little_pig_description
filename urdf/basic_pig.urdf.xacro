@@ -32,7 +32,7 @@
     <xacro:property name="body_length" value="1.91" />
     <xacro:property name="body_width" value="0.680618" />
     <xacro:property name="body_height" value="1.065022" />
-    <xacro:property name="body_mass" value="40"/>
+    <xacro:property name="body_mass" value="80"/>
 
     <!-- The Ackerman Steering Hub -->
     <xacro:property name="ackerman_joint_diameter" value="0.09" />
@@ -41,12 +41,12 @@
     <!-- Front Wheel Properties -->
     <xacro:property name="front_wheel_width" value=".254" />
     <xacro:property name="front_wheel_diameter" value="0.605" />
-    <xacro:property name="front_wheel_mass" value="9.0"/>
+    <xacro:property name="front_wheel_mass" value="20"/>
 
     <!-- Rear Wheel Properties -->
     <xacro:property name="rear_wheel_width" value="0.2794" />
     <xacro:property name="rear_wheel_diameter" value="0.635" />
-    <xacro:property name="rear_wheel_mass" value="9.8"/>
+    <xacro:property name="rear_wheel_mass" value="20"/>
 
     <!-- Main Body of Little Pig -->
     <link name="base_link">
@@ -176,10 +176,10 @@
         <transmission name="${prefix}_ackerman_link_front_${suffix}_wheel_trans">
             <type>transmission_interface/SimpleTransmission</type>
             <joint name="${prefix}_ackerman_link_front_${suffix}_wheel">
-                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
             </joint>
             <actuator name="${prefix}_ackerman_link_front_${suffix}_wheel_motor">
-                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
                 <mechanicalReduction>1</mechanicalReduction>
             </actuator>
         </transmission>
@@ -230,10 +230,10 @@
         <transmission name="base_to_rear_${suffix}_wheel_trans">
             <type>transmission_interface/SimpleTransmission</type>
             <joint name="base_to_rear_${suffix}_wheel">
-                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
             </joint>
             <actuator name="base_to_rear_${suffix}_wheel_motor">
-                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
                 <mechanicalReduction>1</mechanicalReduction>
             </actuator>
         </transmission>

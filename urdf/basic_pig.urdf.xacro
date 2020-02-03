@@ -18,7 +18,7 @@
     <xacro:property name="body_length" value="1.91" />
     <xacro:property name="body_width" value="0.680618" />
     <xacro:property name="body_height" value="1.065022" />
-    <xacro:property name="body_mass" value="80"/>
+    <xacro:property name="body_mass" value="20.3"/>
 
 
     <!-- Front Wheel Properties -->
@@ -76,7 +76,7 @@
             <child link="${prefix}_steering_link"/>
             <axis xyz="0.0 0.0 0.1"/>
             <origin xyz="${(body_length / 2)- 0.1} ${(body_width / 2 + steering_width / 2) * reflect} ${-(body_height/2) + 0.1}" rpy="0.0 0.0 0.0"/>
-            <limit lower="-0.22" upper="0.22" effort="0.0" velocity="0.0"/>
+            <limit lower="-0.30" upper="0.30" effort="100.00" velocity="100.00"/>
         </joint>
 
         <!-- The Transmission -->

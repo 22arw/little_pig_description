@@ -6,7 +6,7 @@
     <xacro:property name="degrees_90" value="1.57079633"/>
     <xacro:property name="degrees_180" value="3.14159265"/>
 
-    <!-- vehiclur velocity properties -->
+    <!-- vehicular velocity properties -->
     <xacro:property name="steering_speed" value="1.0472"/> <!-- units of rad/s -->
     <xacro:property name="steering_max_angle" value="0.3"/> <!-- units of rad -->
     <xacro:property name="steering_min_angle" value="-0.3"/> <!-- units of rad -->
@@ -125,6 +125,30 @@
                 <geometry>
                     <cylinder radius="${front_wheel_diameter/2}" length="${front_wheel_width}"/>
                 </geometry>
+		<surface>
+			<friction>
+				<torsional>
+					<coefficient>2.0</coefficient>
+					<surface_radius>.3025</surface_radius>
+					<use_patch_radius>false</use_patch_radius>
+					<ode>
+						<slip>0.5</slip>
+					</ode>
+				</torsional>
+				<ode>
+					<mu>50000.00</mu>
+					<mu2>50000.00</mu2>
+					<fdir1>1.00000 0.00000 0.00000</fdir1>
+					<slip1>0.00000</slip1>
+					<slip2>0.00000</slip2>
+				</ode>
+			</friction>
+			<contact>
+				<ode>
+					<min_depth>0.3025</min_depth>
+				</ode>
+			</contact>				
+		</surface>
             </collision>
             <xacro:default_inertial mass="${front_wheel_mass}"/>
         </link>
@@ -167,6 +191,30 @@
                 <geometry>
                     <cylinder radius="${rear_wheel_diameter/2}" length="${rear_wheel_width}"/>
                 </geometry>
+		<surface>
+			<friction>
+				<torsional>
+					<coefficient>2.0</coefficient>
+					<surface_radius>.3175</surface_radius>
+					<use_patch_radius>false</use_patch_radius>
+					<ode>
+						<slip>0.5</slip>
+					</ode>
+				</torsional>
+				<ode>
+					<mu>50000.00</mu>
+					<mu2>50000.00</mu2>
+					<fdir1>1.00000 0.00000 0.00000</fdir1>
+					<slip1>0.00000</slip1>
+					<slip2>0.00000</slip2>
+				</ode>
+			</friction>
+			<contact>
+				<ode>
+					<min_depth>0.3175</min_depth>
+				</ode>
+			</contact>
+		</surface>
             </collision>
             <xacro:default_inertial mass="${rear_wheel_mass}"/>
         </link>

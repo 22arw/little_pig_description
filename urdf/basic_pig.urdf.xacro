@@ -125,30 +125,30 @@
                 <geometry>
                     <cylinder radius="${front_wheel_diameter/2}" length="${front_wheel_width}"/>
                 </geometry>
-		<surface>
-			<friction>
-				<torsional>
-					<coefficient>2.0</coefficient>
-					<surface_radius>.3025</surface_radius>
-					<use_patch_radius>false</use_patch_radius>
-					<ode>
-						<slip>0.5</slip>
-					</ode>
-				</torsional>
-				<ode>
-					<mu>50000.00</mu>
-					<mu2>50000.00</mu2>
-					<fdir1>1.00000 0.00000 0.00000</fdir1>
-					<slip1>0.00000</slip1>
-					<slip2>0.00000</slip2>
-				</ode>
-			</friction>
-			<contact>
-				<ode>
-					<min_depth>0.3025</min_depth>
-				</ode>
-			</contact>				
-		</surface>
+                <surface>
+                    <friction>
+                        <torsional>
+                            <coefficient>2.0</coefficient>
+                            <surface_radius>.3025</surface_radius>
+                            <use_patch_radius>false</use_patch_radius>
+                            <ode>
+                                <slip>0.5</slip>
+                            </ode>
+                        </torsional>
+                        <ode>
+                            <mu>50000.00</mu>
+                            <mu2>50000.00</mu2>
+                            <fdir1>1.00000 0.00000 0.00000</fdir1>
+                            <slip1>0.00000</slip1>
+                            <slip2>0.00000</slip2>
+                        </ode>
+                    </friction>
+                    <contact>
+                        <ode>
+                            <min_depth>0.3025</min_depth>
+                        </ode>
+                    </contact>				
+                </surface>
             </collision>
             <xacro:default_inertial mass="${front_wheel_mass}"/>
         </link>
@@ -191,30 +191,30 @@
                 <geometry>
                     <cylinder radius="${rear_wheel_diameter/2}" length="${rear_wheel_width}"/>
                 </geometry>
-		<surface>
-			<friction>
-				<torsional>
-					<coefficient>2.0</coefficient>
-					<surface_radius>.3175</surface_radius>
-					<use_patch_radius>false</use_patch_radius>
-					<ode>
-						<slip>0.5</slip>
-					</ode>
-				</torsional>
-				<ode>
-					<mu>50000.00</mu>
-					<mu2>50000.00</mu2>
-					<fdir1>1.00000 0.00000 0.00000</fdir1>
-					<slip1>0.00000</slip1>
-					<slip2>0.00000</slip2>
-				</ode>
-			</friction>
-			<contact>
-				<ode>
-					<min_depth>0.3175</min_depth>
-				</ode>
-			</contact>
-		</surface>
+                <surface>
+                    <friction>
+                        <torsional>
+                            <coefficient>2.0</coefficient>
+                            <surface_radius>.3175</surface_radius>
+                            <use_patch_radius>false</use_patch_radius>
+                            <ode>
+                                <slip>0.5</slip>
+                            </ode>
+                        </torsional>
+                        <ode>
+                            <mu>50000.00</mu>
+                            <mu2>50000.00</mu2>
+                            <fdir1>1.00000 0.00000 0.00000</fdir1>
+                            <slip1>0.00000</slip1>
+                            <slip2>0.00000</slip2>
+                        </ode>
+                    </friction>
+                    <contact>
+                        <ode>
+                            <min_depth>0.3175</min_depth>
+                        </ode>
+                    </contact>
+                </surface>
             </collision>
             <xacro:default_inertial mass="${rear_wheel_mass}"/>
         </link>

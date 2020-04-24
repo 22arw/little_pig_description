@@ -1,27 +1,28 @@
-spinning_joints:
-  - "right_front_axle"
-  - "left_front_axle"
-  #- "right_rear_axle"
-  #- "left_rear_axle"
-steering_joints:
-  - "right_steering_joint"
-  - "left_steering_joint"
-odometry_joints:
-  #- "right_front_axle"
-  #- "left_front_axle"
-  - "right_rear_axle"
-  - "left_rear_axle"
-pose_covariance_diagonal: [1.0,1.0,1.0,1.0,1.0,1.0]
-twist_covariance_diagonal: [1.0,1.0,1.0,1.0,1.0,1.0]
+ackermann_controller:
+  spinning_joints:
+    - "right_front_axle"
+    - "left_front_axle"
+    #- "right_rear_axle"
+    #- "left_rear_axle"
+  steering_joints:
+    - "right_steering_joint"
+    - "left_steering_joint"
+  odometry_joints:
+    #- "right_front_axle"
+    #- "left_front_axle"
+    - "right_rear_axle"
+    - "left_rear_axle"
+  pose_covariance_diagonal: [1.0,1.0,1.0,1.0,1.0,1.0]
+  twist_covariance_diagonal: [1.0,1.0,1.0,1.0,1.0,1.0]
 
-has_velocity_limits: true
-has_acceleration_limits: true
-has_deceleration_limits: true
-has_jerk_limits: false
-max_velocity: 4.5
-#min_velocity: 0.0
-max_acceleration: 2.0
-#min_acceleration: 0.0
-max_deceleration: 2.0
-#min_deceleration: 0.0
+  has_velocity_limits: true
+  has_acceleration_limits: true
+  has_deceleration_limits: true
+  has_jerk_limits: false
+  max_velocity: 4.5
+  #min_velocity: 0.0
+  max_acceleration: 2.0
+  #min_acceleration: 0.0
+  max_deceleration: 2.0
+  #min_deceleration: 0.0
 

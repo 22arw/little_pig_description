@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="basic_pig">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="basic_laser_pig">
 
     <!-- Degree-to-radian conversions -->
     <xacro:property name="degrees_45" value="0.785398163"/>
@@ -271,7 +271,7 @@
     <!-- Gazebo plugin for ROS Control -->
     <gazebo>
         <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-            <robotNamespace>/basic_pig</robotNamespace>
+            <!-- <robotNamespace></robotNamespace> -->
             <robotSimType>gazebo_ros_control/AckermannRobotHWSim</robotSimType> <!-- THIS IS NEW -->
         </plugin>
     </gazebo>

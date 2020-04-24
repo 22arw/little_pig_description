@@ -2,14 +2,15 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="basic_pig">
 
     <!-- Degree-to-radian conversions -->
+    <xacro:property name="degrees_30" value="0.523598776"/>
     <xacro:property name="degrees_45" value="0.785398163"/>
     <xacro:property name="degrees_90" value="1.57079633"/>
     <xacro:property name="degrees_180" value="3.14159265"/>
 
     <!-- vehicular velocity properties -->
     <xacro:property name="steering_speed" value="1.0472"/> <!-- units of rad/s -->
-    <xacro:property name="steering_max_angle" value="0.3"/> <!-- units of rad -->
-    <xacro:property name="steering_min_angle" value="-0.3"/> <!-- units of rad -->
+    <xacro:property name="steering_max_angle" value="${degrees_30}"/> <!-- units of rad -->
+    <xacro:property name="steering_min_angle" value="- ${degrees_30}"/> <!-- units of rad -->
     <xacro:property name="traverse_max_speed" value="4.785"/> <!-- units of m/s -->
 
     <!-- Inertia Generator -->

@@ -129,8 +129,61 @@
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
       </inertial>
-    </link>
+    </link> 
 
+    <!-- IMU -->
+    <joint name="imu_joint" type="fixed">
+      <axis xyz="1 0 0 "/> <!-- 0 1 0 -->
+      <origin xyz="0 0 0.19"/>
+      <parent link ="chassis"/>
+      <child link ="imu_link"/>
+    </joint>
+    <link name="imu_link">
+	<inertial>
+	    <mass value="0.001"/>
+	    <origin rpy="0 0 0" xyz="0 0 0"/>
+	    <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.0001"/>
+	</inertial>
+	<visual>
+	    <origin rpy="0 0 0" xyz="0 0 0"/>
+	    <geometry>
+	      <box size="0.001 0.001 0.001"/>
+	    </geometry>
+	</visual>
+	  <collision>
+	    <origin rpy="0 0 0" xyz="0 0 0"/>
+	    <geometry>
+	      <box size=".001 .001 .001"/>
+	    </geometry>
+	  </collision>
+	</link>	
+    <!-- GPS -->
+    <joint name="gps_joint" type="fixed">
+      <axis xyz="0 0 0 "/>
+      <origin xyz="0 0 0.19"/>
+      <parent link ="chassis"/>
+      <child link ="gps_link"/>
+    </joint>
+    <link name="gps_link">
+	<inertial>
+	    <mass value="0.001"/>
+	    <origin rpy="0 0 0" xyz="0 0 0"/>
+	    <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.0001"/>
+	</inertial>
+	<visual>
+	    <origin rpy="0 0 0" xyz="0 0 0"/>
+	    <geometry>
+	      <box size="0.001 0.001 0.001"/>
+	    </geometry>
+	</visual>
+	  <collision>
+	    <origin rpy="0 0 0" xyz="0 0 0"/>
+	    <geometry>
+	      <box size=".001 .001 .001"/>
+	    </geometry>
+	  </collision>
+	</link>	
+												
     <!-- Steering Macro -->
     <xacro:macro name="steering_link" params="prefix reflect">
 
@@ -188,6 +241,30 @@
                 <geometry>
                     <cylinder radius="${front_wheel_diameter/2}" length="${front_wheel_width}"/>
                 </geometry>
+		<surface>
+			<friction>
+				<torsional>
+					<coefficient>2.0</coefficient>
+					<surface_radius>.3025</surface_radius>
+					<use_patch_radius>false</use_patch_radius>
+					<ode>
+						<slip>0.5</slip>
+					</ode>
+				</torsional>
+				<ode>
+					<mu>50000.00</mu>
+					<mu2>50000.00</mu2>
+					<fdir1>1.00000 0.00000 0.00000</fdir1>
+					<slip1>0.00000</slip1>
+					<slip2>0.00000</slip2>
+				</ode>
+			</friction>
+			<contact>
+				<ode>
+					<min_depth>0.3025</min_depth>
+				</ode>
+			</contact>				
+		</surface>
             </collision>
             <xacro:default_inertial mass="${front_wheel_mass}"/>
         </link>
@@ -230,6 +307,30 @@
                 <geometry>
                     <cylinder radius="${rear_wheel_diameter/2}" length="${rear_wheel_width}"/>
                 </geometry>
+		<surface>
+			<friction>
+				<torsional>
+					<coefficient>2.0</coefficient>
+					<surface_radius>.3175</surface_radius>
+					<use_patch_radius>false</use_patch_radius>
+					<ode>
+						<slip>0.5</slip>
+					</ode>
+				</torsional>
+				<ode>
+					<mu>50000.00</mu>
+					<mu2>50000.00</mu2>
+					<fdir1>1.00000 0.00000 0.00000</fdir1>
+					<slip1>0.00000</slip1>
+					<slip2>0.00000</slip2>
+				</ode>
+			</friction>
+			<contact>
+				<ode>
+					<min_depth>0.3175</min_depth>
+				</ode>
+			</contact>
+		</surface>
             </collision>
             <xacro:default_inertial mass="${rear_wheel_mass}"/>
         </link>
@@ -274,5 +375,30 @@
             <robotNamespace>/basic_pig</robotNamespace>
             <robotSimType>gazebo_ros_control/AckermannRobotHWSim</robotSimType> <!-- THIS IS NEW -->
         </plugin>
+
+        <plugin name="imu_plugin" filename="libhector_gazebo_ros_imu.so">
+            <alwaysOn>true</alwaysOn>
+            <bodyName>chassis</bodyName>
+            <topicName>imu</topicName>
+            <serviceName>imu_service</serviceName>
+            <gaussianNoise>0.0</gaussianNoise>
+            <updateRate>20.0</updateRate>
+        </plugin>
+
+        <plugin name="gps_plugin" filename="libhector_gazebo_ros_gps.so">
+            <alwayson>1</alwayson>
+            <updaterate>10.0</updaterate>
+            <bodyname>chassis</bodyname>
+            <topicname>fix</topicname>
+            <velocitytopicname>fix_vel</velocitytopicname>
+            <drift>5.0 5.0 5.0</drift>
+            <gaussiannoise>0.1 0.1 0.1 </gaussiannoise>
+            <velocitydrift>0 0 0</velocitydrift>
+            <velocitygaussiannoise>0.1 0.1 0.1</velocitygaussiannoise>
+            <referenceLatitude>37.634047</referenceLatitude>
+            <referenceLongitude>-97.269368</referenceLongitude>
+        </plugin>
+
     </gazebo>
+
 </robot>

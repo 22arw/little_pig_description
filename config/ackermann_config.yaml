@@ -1,27 +1,43 @@
-spinning_joints:
-  - "right_front_axle"
-  - "left_front_axle"
-  #- "right_rear_axle"
-  #- "left_rear_axle"
-steering_joints:
-  - "right_steering_joint"
-  - "left_steering_joint"
-odometry_joints:
-  #- "right_front_axle"
-  #- "left_front_axle"
-  - "right_rear_axle"
-  - "left_rear_axle"
-pose_covariance_diagonal: [1.0,1.0,1.0,1.0,1.0,1.0]
-twist_covariance_diagonal: [1.0,1.0,1.0,1.0,1.0,1.0]
+ackermann_controller:
+  spinning_joints:
+    - "right_front_axle"
+    - "left_front_axle"
+    #- "right_rear_axle"
+    #- "left_rear_axle"
+  steering_joints:
+    - "right_steering_joint"
+    - "left_steering_joint"
+  odometry_joints:
+    #- "right_front_axle"
+    #- "left_front_axle"
+    - "right_rear_axle"
+    - "left_rear_axle"
+  pose_covariance_diagonal: [1.0,1.0,1.0,1.0,1.0,1.0]
+  twist_covariance_diagonal: [2.0,2.0,2.0,2.0,2.0,2.0]
 
-has_velocity_limits: true
-has_acceleration_limits: true
-has_deceleration_limits: true
-has_jerk_limits: false
-max_velocity: 4.5
-#min_velocity: 0.0
-max_acceleration: 2.0
-#min_acceleration: 0.0
-max_deceleration: 2.0
-#min_deceleration: 0.0
+  has_velocity_limits: true
+  has_acceleration_limits: true
+  has_deceleration_limits: true
+  has_jerk_limits: false
+  max_velocity: 4.5
+  #min_velocity: 0.0
+  max_acceleration: 2.0
+  #min_acceleration: 0.0
+  max_deceleration: 2.0
+  #min_deceleration: 0.0
 
+  enable_odom_tf: false
+
+  #wheelbase is technically 1.71 but trimming to get repeatability
+  #wheelbase: 1.625
+  wheelbase: 1.71
+
+  steering_angle_instead_of_angular_speed: true
+
+  cmd_vel_timeout: 100.0
+
+  base_model_link: "base_link"
+
+  odom_frame_id: "odom"
+
+  base_frame_id: "base_link"

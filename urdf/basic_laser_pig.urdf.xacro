@@ -81,7 +81,7 @@
     <!-- Laser link -->
     <joint name="laser_link_joint" type="fixed">
       <axis xyz="0 0 0" />
-      <origin xyz="${(body_length) + 0.1} 0.0 0.0" rpy="0 0 0"/>
+      <origin xyz="${(body_length) + 0.1} 0.0 0.0" rpy="0 0 ${degrees_180}"/> <!-- Was reversed in real world -->
       <parent link="chassis"/>
       <child link="laser_link"/>
     </joint>
@@ -423,6 +423,112 @@
 
     </xacro:macro>
 
+
+
+
+
+    <!-- Ackermann Steering Macro, this is a dummy joint so it has no visual  -->
+    <xacro:macro name="ackermann_steering_link">
+
+        <link name="ackermann_steering_link">
+            <!-- <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="${degrees_90} 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${steering_diameter}" length="${steering_width}"/>
+                </geometry>
+            </visual> -->
+
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="${degrees_90} 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${steering_diameter}" length="${steering_width}"/>
+                </geometry>
+            </collision>
+
+            <xacro:default_inertial mass="${steering_mass}"/>
+        </link>
+
+        <joint name="ackermann_steering_joint" type="revolute">
+            <parent link="chassis"/>
+            <child link="ackermann_steering_link"/>
+            <axis xyz="0.0 0.0 0.1"/>
+            <origin xyz="${(body_length)- 0.2} 0.0 1.0" rpy="0.0 0.0 0.0"/>
+            <limit lower="${steering_min_angle}" upper="${steering_max_angle}" effort="100000.00" velocity="${steering_speed}"/>
+            <!-- effort needs to be very high so we are not constrained by the environment-->
+        </joint>
+
+        <!-- The Transmission -->
+        <transmission name="ackermann_steering_link_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+
+            <joint name="ackermann_steering_joint">
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            </joint>
+
+            <actuator name="ackermann_steering_link_motor">
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+    </xacro:macro>
+
+
+
+
+
+    <!-- Ackermann Wheel Macro, this is a dummy joint so it has no visual -->
+    <xacro:macro name="ackermann_wheel_link">
+
+        <link name="ackermann_rear_wheel">
+            <!-- <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="${degrees_90} 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${front_wheel_diameter/2}" length="${front_wheel_width}"/>
+                </geometry>
+            </visual> -->
+
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="${degrees_90} 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${front_wheel_diameter/2}" length="0.01"/>
+                </geometry>
+            </collision>
+
+            <xacro:default_inertial mass="${steering_mass}"/>
+        </link>
+
+        <joint name="ackermann_rear_axle" type="continuous">
+            <parent link="chassis"/>
+            <child link="ackermann_rear_wheel"/>
+            <axis xyz="0.0 0.1 0.0"/>
+            <origin xyz="0.0 0.0 1.0" rpy="0.0 0.0 0.0"/>
+            <!-- <limit effort="0.0" velocity="${traverse_max_speed / rear_wheel_diameter}"/> --> <!-- rolling axle -->
+            <!-- <limit effort="100000.00" velocity="${traverse_max_speed / rear_wheel_diameter}"/> -->
+        </joint>
+
+        <!-- The Transmission -->
+        <transmission name="ackermann_rear_wheel_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+
+            <joint name="ackermann_rear_axle">
+                <!-- <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface> --> <!-- rolling axle -->
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            
+            <actuator name="ackermann_rear_wheel_motor">
+                <!-- <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface> --> <!-- rolling axle -->
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+    </xacro:macro>
+
+
+
+
+
     <xacro:steering_link prefix="left" reflect="1" />
     <xacro:steering_link prefix="right" reflect="-1" />
 
@@ -434,6 +540,9 @@
 
     <xacro:rear_wheel_link prefix="left" reflect="1" />
     <xacro:rear_wheel_link prefix="right" reflect="-1" />
+
+    <xacro:ackermann_steering_link />
+    <xacro:ackermann_wheel_link />
 
     <!-- Gazebo plugin for ROS Control -->
     <gazebo>

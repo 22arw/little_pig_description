@@ -2,18 +2,14 @@ ackermann_controller:
   spinning_joints:
     - "right_front_axle"
     - "left_front_axle"
-    #- "right_rear_axle"
-    #- "left_rear_axle"
   steering_joints:
     - "right_steering_joint"
     - "left_steering_joint"
   odometry_joints:
-    #- "right_front_axle"
-    #- "left_front_axle"
     - "right_rear_axle"
     - "left_rear_axle"
   pose_covariance_diagonal: [1.0,1.0,1.0,1.0,1.0,1.0]
-  twist_covariance_diagonal: [2.0,2.0,2.0,2.0,2.0,2.0]
+  twist_covariance_diagonal: [1.0,1.0,1.0,1.0,1.0,1.0]
 
   has_velocity_limits: true
   has_acceleration_limits: true
@@ -29,8 +25,8 @@ ackermann_controller:
   enable_odom_tf: false
 
   #wheelbase is technically 1.71 but trimming to get repeatability
-  #wheelbase: 1.625
-  wheelbase: 1.71
+  wheelbase: 1.63
+  #wheelbase: 1.63
 
   steering_angle_instead_of_angular_speed: true
 

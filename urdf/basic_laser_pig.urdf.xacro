@@ -9,8 +9,8 @@
 
     <!-- vehiclur velocity properties -->
     <xacro:property name="steering_speed" value="1.0472"/> <!-- units of rad/s -->
-    <xacro:property name="steering_max_angle" value="${degrees_30}"/> <!-- units of rad -->
-    <xacro:property name="steering_min_angle" value="-${degrees_30}"/> <!-- units of rad -->
+    <xacro:property name="steering_max_angle" value="${degrees_45}"/> <!-- units of rad, used to be 0.523 -->
+    <xacro:property name="steering_min_angle" value="-${degrees_45}"/> <!-- units of rad, used to be 0.523 -->
     <xacro:property name="traverse_max_speed" value="4.785"/> <!-- units of m/s 4.785-->
 
     <!-- Inertia Generator -->
@@ -25,13 +25,13 @@
     <xacro:property name="body_length" value="1.91" />
     <xacro:property name="body_width" value="0.680618" />
     <xacro:property name="body_height" value="1.065022" />
-    <xacro:property name="body_mass" value="200.0"/>
+    <xacro:property name="body_mass" value="20.3"/>
 
 
     <!-- Front Wheel Properties -->
     <xacro:property name="front_wheel_width" value=".254" />
-    <xacro:property name="front_wheel_diameter" value="0.605" />
-    <xacro:property name="front_wheel_mass" value="10"/>
+    <xacro:property name="front_wheel_diameter" value="0.572" />
+    <xacro:property name="front_wheel_mass" value="20"/>
 
     <!-- Steering Link Properties -->
     <xacro:property name="steering_width" value="${front_wheel_width/4}" />
@@ -41,7 +41,7 @@
     <!-- Rear Wheel Properties -->
     <xacro:property name="rear_wheel_width" value="${front_wheel_width+steering_width}" />
     <xacro:property name="rear_wheel_diameter" value="0.635" />
-    <xacro:property name="rear_wheel_mass" value="12"/>
+    <xacro:property name="rear_wheel_mass" value="22.8"/>
 
     <!-- Camera Properties -->
     <xacro:property name="camera_link" value="0.04"/>
@@ -81,7 +81,7 @@
     <!-- Laser link -->
     <joint name="laser_link_joint" type="fixed">
       <axis xyz="0 0 0" />
-      <origin xyz="${(body_length) + 0.1} 0.0 0.0" rpy="0 0 0"/>
+      <origin xyz="${(body_length) + 0.1} 0.0 0.0" rpy="0 0 ${degrees_180}"/> <!-- Was reversed in real world -->
       <parent link="chassis"/>
       <child link="laser_link"/>
     </joint>
@@ -264,32 +264,33 @@
                 <geometry>
                     <cylinder radius="${front_wheel_diameter/2}" length="0.02"/>
                 </geometry>
-                    <surface>
-                        <friction>
-                            <torsional>
-                                <coefficient>2.0</coefficient>
-                                <surface_radius>.3025</surface_radius>
-                                <use_patch_radius>false</use_patch_radius>
-                                <ode>
-                                    <slip>0.5</slip>
-                                </ode>
-                            </torsional>
-                            
+
+                <surface>
+                    <friction>
+                        <torsional>
+                            <coefficient>2.0</coefficient>
+                            <surface_radius>.3025</surface_radius>
+                            <use_patch_radius>false</use_patch_radius>
                             <ode>
-                                <mu>50000.00</mu>
-                                <mu2>50000.00</mu2>
-                                <fdir1>1.00000 0.00000 0.00000</fdir1>
-                                <slip1>0.00000</slip1>
-                                <slip2>0.00000</slip2>
+                                <slip>0.0</slip>
                             </ode>
-                        </friction>
+                        </torsional>
                         
-                        <contact>
-                            <ode>
-                                <min_depth>0.03</min_depth>
-                            </ode>
-                        </contact>				
-                    </surface>
+                        <ode>
+                            <mu>70000.00</mu>
+                            <mu2>70000.00</mu2>
+                            <fdir1>1.00000 0.00000 0.00000</fdir1>
+                            <slip1>0.00000</slip1>
+                            <slip2>0.00000</slip2>
+                        </ode>
+                    </friction>
+                    
+                    <contact>
+                        <ode>
+                            <min_depth>0.4025</min_depth>
+                        </ode>
+                    </contact>				
+                </surface>
             </collision>
             
             <xacro:default_inertial mass="${front_wheel_mass}"/>
@@ -338,6 +339,7 @@
                     <cylinder radius="0.1" length="0.02"/>
                 </geometry>
             </collision>
+            
             <xacro:default_inertial mass="${rear_wheel_mass}"/>
         </link>
 
@@ -371,7 +373,7 @@
             <collision>
                 <origin xyz="0.0 0.0 0.0" rpy="${degrees_90} 0.0 0.0"/>
                 <geometry>
-                    <cylinder radius="${rear_wheel_diameter/2}" length="0.02"/>
+                    <cylinder radius="${rear_wheel_diameter/2}" length="0.01"/>
                 </geometry>
             </collision>
 
@@ -421,6 +423,112 @@
 
     </xacro:macro>
 
+
+
+
+
+    <!-- Ackermann Steering Macro, this is a dummy joint so it has no visual  -->
+    <xacro:macro name="ackermann_steering_link">
+
+        <link name="ackermann_steering_link">
+            <!-- <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="${degrees_90} 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${steering_diameter}" length="${steering_width}"/>
+                </geometry>
+            </visual> -->
+
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="${degrees_90} 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${steering_diameter}" length="${steering_width}"/>
+                </geometry>
+            </collision>
+
+            <xacro:default_inertial mass="${steering_mass}"/>
+        </link>
+
+        <joint name="ackermann_steering_joint" type="revolute">
+            <parent link="chassis"/>
+            <child link="ackermann_steering_link"/>
+            <axis xyz="0.0 0.0 0.1"/>
+            <origin xyz="${(body_length)- 0.2} 0.0 1.0" rpy="0.0 0.0 0.0"/>
+            <limit lower="${steering_min_angle}" upper="${steering_max_angle}" effort="100000.00" velocity="${steering_speed}"/>
+            <!-- effort needs to be very high so we are not constrained by the environment-->
+        </joint>
+
+        <!-- The Transmission -->
+        <transmission name="ackermann_steering_link_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+
+            <joint name="ackermann_steering_joint">
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            </joint>
+
+            <actuator name="ackermann_steering_link_motor">
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+    </xacro:macro>
+
+
+
+
+
+    <!-- Ackermann Wheel Macro, this is a dummy joint so it has no visual -->
+    <xacro:macro name="ackermann_wheel_link">
+
+        <link name="ackermann_rear_wheel">
+            <!-- <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="${degrees_90} 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${front_wheel_diameter/2}" length="${front_wheel_width}"/>
+                </geometry>
+            </visual> -->
+
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="${degrees_90} 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${front_wheel_diameter/2}" length="0.01"/>
+                </geometry>
+            </collision>
+
+            <xacro:default_inertial mass="${steering_mass}"/>
+        </link>
+
+        <joint name="ackermann_rear_axle" type="continuous">
+            <parent link="chassis"/>
+            <child link="ackermann_rear_wheel"/>
+            <axis xyz="0.0 0.1 0.0"/>
+            <origin xyz="0.0 0.0 1.0" rpy="0.0 0.0 0.0"/>
+            <!-- <limit effort="0.0" velocity="${traverse_max_speed / rear_wheel_diameter}"/> --> <!-- rolling axle -->
+            <!-- <limit effort="100000.00" velocity="${traverse_max_speed / rear_wheel_diameter}"/> -->
+        </joint>
+
+        <!-- The Transmission -->
+        <transmission name="ackermann_rear_wheel_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+
+            <joint name="ackermann_rear_axle">
+                <!-- <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface> --> <!-- rolling axle -->
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            
+            <actuator name="ackermann_rear_wheel_motor">
+                <!-- <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface> --> <!-- rolling axle -->
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+    </xacro:macro>
+
+
+
+
+
     <xacro:steering_link prefix="left" reflect="1" />
     <xacro:steering_link prefix="right" reflect="-1" />
 
@@ -433,6 +541,9 @@
     <xacro:rear_wheel_link prefix="left" reflect="1" />
     <xacro:rear_wheel_link prefix="right" reflect="-1" />
 
+    <xacro:ackermann_steering_link />
+    <xacro:ackermann_wheel_link />
+
     <!-- Gazebo plugin for ROS Control -->
     <gazebo>
         
@@ -442,26 +553,31 @@
         
         <plugin name="imu_plugin" filename="libhector_gazebo_ros_imu.so">
             <alwaysOn>true</alwaysOn>
-            <bodyName>chassis</bodyName>
-            <topicName>imu/data</topicName>
-            <serviceName>imu/is_calibrated</serviceName>
+            <bodyName>imu_link</bodyName>
+            <topicName>imu/data</topicName> <!-- Lets solve the namepsace issues -->
+            <accelDrift>0.005 0.005 0.005</accelDrift>
+            <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
+            <rateDrift>0.005 0.005 0.005</rateDrift>
+            <rateGaussianNoise>0.005 0.005 0.005</rateGaussianNoise>
+            <headingDrift>0.005 0.005 0.005</headingDrift>
             <gaussianNoise>0.0</gaussianNoise>
-            <updateRate>20.0</updateRate>
+            <updateRate>50.0</updateRate>
             <xyzOffsets>0 0 0</xyzOffsets> 
             <rpyOffsets>0 0 0</rpyOffsets>
         </plugin>
         
         <plugin name="gps_plugin" filename="libhector_gazebo_ros_gps.so">
-            <alwayson>1</alwayson>
-            <updaterate>10.0</updaterate>
-            <bodyname>chassis</bodyname>
-            <topicname>fix</topicname>
-            <velocitytopicname>fix_vel</velocitytopicname>
-            <gaussiannoise>0.1 0.1 0.1 </gaussiannoise>
-            <velocitydrift>0 0 0</velocitydrift>
-            <velocitygaussiannoise>0.1 0.1 0.1</velocitygaussiannoise>
+            <alwaysOn>1</alwaysOn>
+            <updateRate>40.0</updateRate>
+            <frameId>base_link</frameId> <!-- Defaults to world? don't put in a "/"-->
+            <bodyName>chassis</bodyName>
+            <topicName>fix</topicName>
+            <velocityTopicName>fix_vel</velocityTopicName>
+            <drift>0.0001 0.0001 0.0001</drift>
             <referenceLatitude>37.634047</referenceLatitude>
             <referenceLongitude>-97.269368</referenceLongitude>
+            <referenceHeading>0</referenceHeading>
+            <referenceAltitude>0</referenceAltitude>
         </plugin>
         
     </gazebo>

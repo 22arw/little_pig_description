@@ -9,8 +9,8 @@
 
     <!-- vehiclur velocity properties -->
     <xacro:property name="steering_speed" value="1.0472"/> <!-- units of rad/s -->
-    <xacro:property name="steering_max_angle" value="${degrees_45}"/> <!-- units of rad, used to be 0.523 -->
-    <xacro:property name="steering_min_angle" value="-${degrees_45}"/> <!-- units of rad, used to be 0.523 -->
+    <xacro:property name="steering_max_angle" value="${degrees_30}"/> <!-- units of rad, used to be 0.523 -->
+    <xacro:property name="steering_min_angle" value="-${degrees_30}"/> <!-- units of rad, used to be 0.523 -->
     <xacro:property name="traverse_max_speed" value="4.785"/> <!-- units of m/s 4.785-->
 
     <!-- Inertia Generator -->
@@ -78,16 +78,15 @@
         <child link="chassis" />
     </joint>
 
-    <!-- Laser link -->
-    <joint name="laser_link_joint" type="fixed">
+    <!-- Front Laser -->
+    <joint name="front_laser_joint" type="fixed">
       <axis xyz="0 0 0" />
-      <origin xyz="${(body_length) + 0.1} 0.0 0.0" rpy="0 0 0"/> <!-- Was reversed in real world -->
+      <origin xyz="${(body_length) + 0.1} 0.0 0.0" rpy="0 0 ${degrees_180}"/> <!-- Was reversed in real world -->
       <parent link="chassis"/>
-      <child link="laser_link"/>
+      <child link="front_laser_link"/>
     </joint>
 
-     <!-- Laser -->
-    <link name="laser_link">
+    <link name="front_laser_link">
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
@@ -102,6 +101,36 @@
         </geometry>
       </visual>
       
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+    </link>
+
+    <!-- Rear Laser -->
+    <joint name="rear_laser_joint" type="fixed">
+      <axis xyz="0 0 0" />
+      <origin xyz="-0.15 0.0 0.0" rpy="0 0 ${degrees_180}"/> <!-- Was reversed in real world -->
+      <parent link="chassis"/>
+      <child link="rear_laser_link"/>
+    </joint>
+
+    <link name="rear_laser_link">
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius=".05" length="0.04"/>
+        </geometry>
+      </collision>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius=".05" length="0.04"/>
+        </geometry>
+      </visual>
+
       <inertial>
         <mass value="1e-5" />
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -445,7 +474,7 @@
                 </geometry>
             </collision>
 
-            <xacro:default_inertial mass="${steering_mass}"/>
+            <xacro:default_inertial mass="0.001"/>
         </link>
 
         <joint name="ackermann_steering_joint" type="revolute">
@@ -495,7 +524,7 @@
                 </geometry>
             </collision>
 
-            <xacro:default_inertial mass="${steering_mass}"/>
+            <xacro:default_inertial mass="0.001"/>
         </link>
 
         <joint name="ackermann_rear_axle" type="continuous">
@@ -554,7 +583,7 @@
         <plugin name="imu_plugin" filename="libhector_gazebo_ros_imu.so">
             <alwaysOn>true</alwaysOn>
             <bodyName>imu_link</bodyName>
-            <topicName>imu/data</topicName> <!-- Lets solve the namepsace issues -->
+            <topicName>IMU/data</topicName> <!-- Lets solve the namepsace issues -->
             <accelDrift>0.005 0.005 0.005</accelDrift>
             <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
             <rateDrift>0.005 0.005 0.005</rateDrift>
@@ -571,8 +600,8 @@
             <updateRate>40.0</updateRate>
             <frameId>base_link</frameId> <!-- Defaults to world? don't put in a "/"-->
             <bodyName>chassis</bodyName>
-            <topicName>fix</topicName>
-            <velocityTopicName>fix_vel</velocityTopicName>
+            <topicName>GPS/fix</topicName>
+            <velocityTopicName>GPS/fix_vel</velocityTopicName>
             <drift>0.0001 0.0001 0.0001</drift>
             <referenceLatitude>37.634047</referenceLatitude>
             <referenceLongitude>-97.269368</referenceLongitude>

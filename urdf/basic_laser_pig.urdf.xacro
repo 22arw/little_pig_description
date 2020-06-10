@@ -9,8 +9,8 @@
 
     <!-- vehiclur velocity properties -->
     <xacro:property name="steering_speed" value="1.0472"/> <!-- units of rad/s -->
-    <xacro:property name="steering_max_angle" value="${degrees_30}"/> <!-- units of rad, used to be 0.523 -->
-    <xacro:property name="steering_min_angle" value="-${degrees_30}"/> <!-- units of rad, used to be 0.523 -->
+    <xacro:property name="steering_max_angle" value="1.0"/> <!-- units of rad, needs to be 30 degreees -->
+    <xacro:property name="steering_min_angle" value="-1.0"/> <!-- units of rad, needs to be 30 degrees -->
     <xacro:property name="traverse_max_speed" value="4.785"/> <!-- units of m/s 4.785-->
 
     <!-- Inertia Generator -->

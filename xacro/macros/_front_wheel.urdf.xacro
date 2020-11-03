@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<robot name="front_wheel" 
+    xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:macro name="front_wheel" params="prefix reflect">
+
+        <link name="${prefix}_front_wheel">
+            <visual>
+                <geometry>
+                    <mesh filename="package://little_pig_description/meshes/little_pig_wheel.stl" scale="0.0254 0.0254 0.0254"/>
+                </geometry>
+                <origin rpy="0 0.0 ${1.57075 * reflect}" xyz="0 0 0.0"/>
+                <material name="black"/>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 ${1.57075 * reflect}"/>
+                <geometry>
+                    <mesh filename="package://little_pig_description/meshes/little_pig_wheel.stl" scale="0.0254 0.0254 0.0254"/>
+                </geometry>
+            </collision>
+            <xacro:default_inertial mass="${front_wheel_mass}"/>
+        </link>
+
+        <joint name="${prefix}_front_wheel_joint" type="continuous">
+            <parent link="${prefix}_steer_link"/>
+            <child link="${prefix}_front_wheel"/>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <axis xyz="0.0 0.1 0.0"/>
+            <limit effort="1.0" velocity="0.5"/>
+        </joint>
+
+    </xacro:macro>
+
+</robot>

@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+
+<robot name="characteristics" 
+    xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <!-- Basic Geometry of Body -->
+    <xacro:property name="body_length" value="1.91" />
+    <xacro:property name="body_width" value="0.680618" />
+    <xacro:property name="body_height" value="1.065022" />
+    <xacro:property name="body_mass" value="20.3"/>
+
+
+    <!-- Front Wheel Properties -->
+    <xacro:property name="front_wheel_width" value=".254" />
+    <xacro:property name="front_wheel_diameter" value="0.572" />
+    <xacro:property name="front_wheel_mass" value="20"/>
+
+    <!-- Rear Wheel Properties -->
+    <xacro:property name="rear_wheel_width" value="${front_wheel_width+steering_width}" />
+    <xacro:property name="rear_wheel_diameter" value="0.635" />
+    <xacro:property name="rear_wheel_mass" value="22.8"/>
+
+    <!-- Steering Link Properties -->
+    <xacro:property name="steering_width" value="${front_wheel_width/4}" />
+    <xacro:property name="steering_diameter" value="${front_wheel_diameter/5}" />
+    <xacro:property name="steering_mass" value="2"/>
+
+    <!-- Steering Characteristics -->
+    <!-- units of rad/s -->
+    <xacro:property name="steering_speed" value="1.0472"/>
+    <!-- units of rad, used to be 0.523 -->
+    <xacro:property name="steering_max_angle" value="${degrees_45}"/>
+    <!-- units of rad, used to be 0.523 -->
+    <xacro:property name="steering_min_angle" value="-${degrees_45}"/>
+
+</robot>

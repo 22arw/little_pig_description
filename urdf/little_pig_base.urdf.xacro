@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="little_pig">
+
+    <xacro:include filename="$(find little_pig_description)/xacro/params/color_properties.xacro"/>
+    <xacro:include filename="$(find little_pig_description)/xacro/params/characteristics.xacro"/>
+
+    <xacro:include filename="$(find little_pig_description)/xacro/macros/_steering_macro.urdf.xacro" />
+    <xacro:include filename="$(find little_pig_description)/xacro/macros/_front_wheel.urdf.xacro" />
+    <xacro:include filename="$(find little_pig_description)/xacro/macros/_rear_wheel.urdf.xacro" />
+
+    <!-- Inertia Generator -->
+    <xacro:macro name="default_inertial" params="mass">
+        <inertial>
+            <mass value="${mass}" />
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+        </inertial>
+    </xacro:macro>
+
+    <link name="base_footprint" />
+
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://little_pig_description/meshes/little_pig_body.stl" scale="0.0254 0.0254 0.0254"/>
+            </geometry>
+            <origin rpy="0 0.0 1.57075" xyz="0 0 0.0"/>
+            <material name="light_black"/>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 1.57075"/>
+            <geometry>
+                <mesh filename="package://little_pig_description/meshes/little_pig_body.stl" scale="0.0254 0.0254 0.0254"/>
+            </geometry>
+        </collision>
+        <xacro:default_inertial mass="${body_mass}"/>
+    </link>
+
+    <joint name="base_joint" type="fixed">
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    </joint>
+
+    <xacro:steering_component prefix="left" reflect="1" />
+    <xacro:steering_component prefix="right" reflect="-1" />
+
+    <xacro:front_wheel prefix="left" reflect="1" />
+    <xacro:front_wheel prefix="right" reflect="-1" />
+
+    <xacro:rear_wheel prefix="left" reflect="1" />
+    <xacro:rear_wheel prefix="right" reflect="-1" />
+
+
+
+</robot>

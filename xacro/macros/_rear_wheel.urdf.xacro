@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<robot name="rear_wheel" 
+    xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:macro name="rear_wheel" params="prefix reflect">
+
+        <link name="${prefix}_rear_wheel">
+            <visual>
+                <geometry>
+                    <mesh filename="package://little_pig_description/meshes/little_pig_wheel.stl" scale="0.0254 0.0254 0.0254"/>
+                </geometry>
+                <origin rpy="0 0.0 ${1.57075 * reflect}" xyz="0 0 0.0"/>
+                <material name="black"/>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 ${1.57075 * reflect}"/>
+                <geometry>
+                    <mesh filename="package://little_pig_description/meshes/little_pig_wheel.stl" scale="0.0254 0.0254 0.0254"/>
+                </geometry>
+            </collision>
+            <xacro:default_inertial mass="${rear_wheel_mass}"/>
+        </link>
+
+        <joint name="${prefix}_rear_wheel_joint" type="continuous">
+            <parent link="base_link"/>
+            <child link="${prefix}_rear_wheel"/>
+            <origin xyz="-0.65 ${0.45 * reflect} -0.15" rpy="0.0 0.0 0.0"/>
+            <axis xyz="0.0 0.1 0.0"/>
+            <limit effort="1.0" velocity="0.5"/>
+        </joint>
+
+    </xacro:macro>
+
+</robot>

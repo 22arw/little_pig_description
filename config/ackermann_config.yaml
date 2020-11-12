@@ -1,13 +1,13 @@
 ackermann_controller:
   spinning_joints:
-    - "right_front_axle"
-    - "left_front_axle"
+    - "right_front_wheel_joint"
+    - "left_front_wheel_joint"
   steering_joints:
-    - "right_steering_joint"
-    - "left_steering_joint"
+    - "right_steer_joint"
+    - "left_steer_joint"
   odometry_joints:
-    - "right_rear_axle"
-    - "left_rear_axle"
+    - "right_rear_wheel_joint"
+    - "left_rear_wheel_joint"
   pose_covariance_diagonal: [1.0,1.0,1.0,1.0,1.0,1.0]
   twist_covariance_diagonal: [1.0,1.0,1.0,1.0,1.0,1.0]
 

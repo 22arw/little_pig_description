@@ -1,6 +1,12 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="little_pig">
 
+    <!-- Degree-to-radian conversions -->
+    <xacro:property name="degrees_30" value="0.523598776"/>
+    <xacro:property name="degrees_45" value="0.785398163"/>
+    <xacro:property name="degrees_90" value="1.57079633"/>
+    <xacro:property name="degrees_180" value="3.14159265"/>
+
     <xacro:include filename="$(find little_pig_description)/xacro/params/color_properties.xacro"/>
     <xacro:include filename="$(find little_pig_description)/xacro/params/characteristics.xacro"/>
 
@@ -50,6 +56,11 @@
     <xacro:rear_wheel prefix="left" reflect="1" />
     <xacro:rear_wheel prefix="right" reflect="-1" />
 
-
+    <!-- Gazebo plugin for ROS Control -->
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotSimType>gazebo_ros_control/AckermannRobotHWSim</robotSimType>
+        </plugin>
+    </gazebo>
 
 </robot>

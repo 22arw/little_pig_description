@@ -9,13 +9,14 @@
                 <geometry>
                     <mesh filename="package://little_pig_description/meshes/little_pig_wheel.stl" scale="0.0254 0.0254 0.0254"/>
                 </geometry>
-                <origin rpy="0 0.0 ${1.57075 * reflect}" xyz="0 0 0.0"/>
+                <origin rpy="0.0 0.0 ${degrees_90 * reflect}" xyz="0 0 0.0"/>
                 <material name="black"/>
             </visual>
             <collision>
-                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 ${1.57075 * reflect}"/>
+                <origin xyz="0.0 0.0 0.0" rpy="${degrees_90 * reflect} 0.0 0.0"/>
                 <geometry>
-                    <mesh filename="package://little_pig_description/meshes/little_pig_wheel.stl" scale="0.0254 0.0254 0.0254"/>
+                    <cylinder radius="${front_wheel_diameter/2}" length="0.02"/>
+                    <!-- <mesh filename="package://little_pig_description/meshes/little_pig_wheel.stl" scale="0.0254 0.0254 0.0254"/> -->
                 </geometry>
             </collision>
             <xacro:default_inertial mass="${front_wheel_mass}"/>
@@ -28,6 +29,19 @@
             <axis xyz="0.0 0.1 0.0"/>
             <limit effort="1.0" velocity="0.5"/>
         </joint>
+
+        <transmission name="${prefix}_front_wheel_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            
+            <joint name="${prefix}_front_wheel_joint">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+            
+            <actuator name="${prefix}_front_wheel_motor">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
 
     </xacro:macro>
 

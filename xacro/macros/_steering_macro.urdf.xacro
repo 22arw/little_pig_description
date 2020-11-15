@@ -26,7 +26,8 @@
             <child link="${prefix}_steer_link"/>
             <origin xyz="0.7 ${0.45 * reflect} -0.15" rpy="0.0 0.0 0.0"/>
             <axis xyz="0.0 0.0 0.1"/>
-            <limit lower="-0.30" upper="0.30" effort="1.0" velocity="0.1"/>
+            <limit lower="${steering_min_angle}" upper="${steering_max_angle}" effort="30.00" velocity="${steering_speed}"/>
+            <!-- <limit lower="-0.30" upper="0.30" effort="1.0" velocity="0.1"/> -->
         </joint>
 
         <transmission name="${prefix}_steer_link_trans">

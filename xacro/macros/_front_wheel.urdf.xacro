@@ -15,7 +15,7 @@
             <collision>
                 <origin xyz="0.0 0.0 0.0" rpy="${degrees_90 * reflect} 0.0 0.0"/>
                 <geometry>
-                    <cylinder radius="${front_wheel_diameter/2}" length="0.02"/>
+                    <cylinder radius="${front_wheel_diameter/2}" length="${front_wheel_width}"/>
                     <!-- <mesh filename="package://little_pig_description/meshes/little_pig_wheel.stl" scale="0.0254 0.0254 0.0254"/> -->
                 </geometry>
             </collision>
@@ -27,7 +27,8 @@
             <child link="${prefix}_front_wheel"/>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <axis xyz="0.0 0.1 0.0"/>
-            <limit effort="1.0" velocity="0.5"/>
+            <!-- <limit effort="1.0" velocity="0.5"/> -->
+            <limit effort="30.00" velocity="${traverse_max_speed * 2 / front_wheel_diameter}"/> <!-- units of rad/s -->
         </joint>
 
         <transmission name="${prefix}_front_wheel_trans">

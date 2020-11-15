@@ -13,6 +13,9 @@
     <xacro:include filename="$(find little_pig_description)/xacro/macros/_steering_macro.urdf.xacro" />
     <xacro:include filename="$(find little_pig_description)/xacro/macros/_front_wheel.urdf.xacro" />
     <xacro:include filename="$(find little_pig_description)/xacro/macros/_rear_wheel.urdf.xacro" />
+    
+    <xacro:include filename="$(find little_pig_description)/xacro/macros/_front_laser.urdf.xacro" />
+    <xacro:include filename="$(find little_pig_description)/xacro/macros/_back_laser.urdf.xacro" />
 
     <!-- Inertia Generator -->
     <xacro:macro name="default_inertial" params="mass">
@@ -55,6 +58,9 @@
 
     <xacro:rear_wheel prefix="left" reflect="1" />
     <xacro:rear_wheel prefix="right" reflect="-1" />
+
+    <xacro:front_laser />
+    <xacro:back_laser />
 
     <!-- Gazebo plugin for ROS Control -->
     <gazebo>

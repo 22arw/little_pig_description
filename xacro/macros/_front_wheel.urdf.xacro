@@ -18,6 +18,32 @@
                     <cylinder radius="${front_wheel_diameter/2}" length="${front_wheel_width}"/>
                     <!-- <mesh filename="package://little_pig_description/meshes/little_pig_wheel.stl" scale="0.0254 0.0254 0.0254"/> -->
                 </geometry>
+                <surface>
+                    <friction>
+                        <torsional>
+                            <coefficient>2.0</coefficient>
+                            <surface_radius>.3025</surface_radius>
+                            <use_patch_radius>false</use_patch_radius>
+                            <ode>
+                                <slip>0.0</slip>
+                            </ode>
+                        </torsional>
+                        
+                        <ode>
+                            <mu>70000.00</mu>
+                            <mu2>70000.00</mu2>
+                            <fdir1>1.00000 0.00000 0.00000</fdir1>
+                            <slip1>0.00000</slip1>
+                            <slip2>0.00000</slip2>
+                        </ode>
+                    </friction>
+                    
+                    <contact>
+                        <ode>
+                            <min_depth>0.4025</min_depth>
+                        </ode>
+                    </contact>				
+                </surface>
             </collision>
             <xacro:default_inertial mass="${front_wheel_mass}"/>
         </link>

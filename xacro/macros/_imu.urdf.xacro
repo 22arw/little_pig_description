@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<robot name="imu" 
+    xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:macro name="imu">
+        <joint name="imu_joint" type="fixed">
+            <axis xyz="1 0 0 "/> <!-- 0 1 0 -->
+            <origin xyz="0 0 0.19"/>
+            <parent link ="chassis"/>
+            <child link ="imu_link"/>
+        </joint>
+
+        <link name="imu_link">
+            <inertial>
+                <mass value="0.001"/>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.0001"/>
+            </inertial>
+
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                <box size="0.001 0.001 0.001"/>
+                </geometry>
+            </visual>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                <box size=".001 .001 .001"/>
+                </geometry>
+            </collision>
+	    </link>	
+
+        <gazebo>
+            <plugin name="imu_plugin" filename="libhector_gazebo_ros_imu.so">
+                <alwaysOn>true</alwaysOn>
+                <bodyName>imu_link</bodyName>
+                <topicName>imu/data</topicName> <!-- Lets solve the namepsace issues -->
+                <accelDrift>0.005 0.005 0.005</accelDrift>
+                <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
+                <rateDrift>0.005 0.005 0.005</rateDrift>
+                <rateGaussianNoise>0.005 0.005 0.005</rateGaussianNoise>
+                <headingDrift>0.005 0.005 0.005</headingDrift>
+                <gaussianNoise>0.0</gaussianNoise>
+                <updateRate>50.0</updateRate>
+                <xyzOffsets>0 0 0</xyzOffsets> 
+                <rpyOffsets>0 0 0</rpyOffsets>
+            </plugin>
+        </gazebo>
+
+    </xacro:macro>
+
+</robot>

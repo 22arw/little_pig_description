@@ -7,6 +7,7 @@
     <xacro:property name="degrees_90" value="1.57079633"/>
     <xacro:property name="degrees_180" value="3.14159265"/>
 
+    <!-- Included macros -->
     <xacro:include filename="$(find little_pig_description)/xacro/params/color_properties.xacro"/>
     <xacro:include filename="$(find little_pig_description)/xacro/params/characteristics.xacro"/>
 
@@ -16,6 +17,8 @@
     
     <xacro:include filename="$(find little_pig_description)/xacro/macros/_front_laser.urdf.xacro" />
     <xacro:include filename="$(find little_pig_description)/xacro/macros/_back_laser.urdf.xacro" />
+    <xacro:include filename="$(find little_pig_description)/xacro/macros/_imu.urdf.xacro" />
+    <xacro:include filename="$(find little_pig_description)/xacro/macros/_camera.urdf.xacro" />
 
     <!-- Inertia Generator -->
     <xacro:macro name="default_inertial" params="mass">
@@ -25,9 +28,9 @@
         </inertial>
     </xacro:macro>
 
-    <link name="base_footprint" />
+    <link name="base_link" />
 
-    <link name="base_link">
+    <link name="chassis">
         <visual>
             <geometry>
                 <mesh filename="package://little_pig_description/meshes/little_pig_body.stl" scale="0.0254 0.0254 0.0254"/>
@@ -45,11 +48,12 @@
     </link>
 
     <joint name="base_joint" type="fixed">
-        <parent link="base_footprint"/>
-        <child link="base_link"/>
+        <parent link="base_link"/>
+        <child link="chassis"/>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     </joint>
 
+    <!-- Call macros to build components -->
     <xacro:steering_component prefix="left" reflect="1" />
     <xacro:steering_component prefix="right" reflect="-1" />
 
@@ -61,12 +65,29 @@
 
     <xacro:front_laser />
     <xacro:back_laser />
+    <xacro:imu />
+    <xacro:camera1 />
 
     <!-- Gazebo plugin for ROS Control -->
     <gazebo>
         <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
             <robotSimType>gazebo_ros_control/AckermannRobotHWSim</robotSimType>
         </plugin>
+
+        <plugin name="gps_plugin" filename="libhector_gazebo_ros_gps.so">
+            <alwaysOn>1</alwaysOn>
+            <updateRate>40.0</updateRate>
+            <frameId>base_link</frameId> <!-- Defaults to world? don't put in a "/"-->
+            <bodyName>chassis</bodyName>
+            <topicName>fix</topicName>
+            <velocityTopicName>fix_vel</velocityTopicName>
+            <drift>0.0001 0.0001 0.0001</drift>
+            <referenceLatitude>37.634047</referenceLatitude>
+            <referenceLongitude>-97.269368</referenceLongitude>
+            <referenceHeading>0</referenceHeading>
+            <referenceAltitude>0</referenceAltitude>
+        </plugin>
+
     </gazebo>
 
 </robot>

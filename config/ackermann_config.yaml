@@ -25,7 +25,7 @@ ackermann_controller:
   enable_odom_tf: false
 
   #wheelbase is technically 1.71 but trimming to get repeatability
-  wheelbase: 1.63
+  wheelbase: 1.19
   #wheelbase: 1.63
 
   steering_angle_instead_of_angular_speed: true

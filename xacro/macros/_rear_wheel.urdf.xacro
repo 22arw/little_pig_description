@@ -19,13 +19,29 @@
                     <!-- <mesh filename="package://little_pig_description/meshes/little_pig_wheel.stl" scale="0.0254 0.0254 0.0254"/> -->
                 </geometry>
             </collision>
+            <surface>
+                <contact>
+                    <ode>
+                        <min_depth>0.01</min_depth>
+                    </ode>
+                </contact>
+
+                <friction>
+                    <ode>
+                        <mu>1</mu>
+                        <mu2>1</mu2>
+                        <fdir1>1.0 0 0</fdir1>
+                    </ode>
+                </friction>
+            </surface>
             <xacro:default_inertial mass="${rear_wheel_mass}"/>
         </link>
 
         <joint name="${prefix}_rear_wheel_joint" type="continuous">
-            <parent link="base_link"/>
+            <parent link="chassis"/>
             <child link="${prefix}_rear_wheel"/>
             <origin xyz="-0.65 ${0.45 * reflect} -0.15" rpy="0.0 0.0 0.0"/>
+            <axis xyz="0.0 0.1 0.0"/>
             <!-- <limit effort="1.0" velocity="0.5"/> -->
         </joint>
 

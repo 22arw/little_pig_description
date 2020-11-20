@@ -2,10 +2,10 @@
 <robot name="imu" 
     xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:macro name="imu">
+    <xacro:macro name="imu" params="position">
         <joint name="imu_joint" type="fixed">
             <axis xyz="1 0 0 "/> <!-- 0 1 0 -->
-            <origin xyz="0 0 0.19"/>
+            <origin xyz="${position}"/>
             <parent link ="chassis"/>
             <child link ="imu_link"/>
         </joint>

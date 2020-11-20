@@ -2,11 +2,11 @@
 <robot name="front_laser" 
     xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:macro name="front_laser">
+    <xacro:macro name="front_laser" params="position rotate">
         <!-- Laser link -->
         <joint name="laser_link_joint" type="fixed">
             <axis xyz="0 0 0" />
-            <origin xyz="1.05 0.0 0.35" rpy="0 0 0"/> <!-- Was reversed in real world -->
+            <origin xyz="${position}" rpy="0 0 ${rotate}"/>
             <parent link="chassis"/>
             <child link="laser_link"/>
         </joint>
@@ -45,8 +45,8 @@
                         <horizontal>
                             <samples>360</samples>
                             <resolution>1</resolution>
-                            <min_angle>-1.91986</min_angle>
-                            <max_angle>1.91986</max_angle>
+                            <min_angle>-${degrees_90}</min_angle>
+                            <max_angle>${degrees_90}</max_angle>
                         </horizontal>
                     </scan>
                     <range>

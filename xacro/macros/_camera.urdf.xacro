@@ -2,10 +2,10 @@
 <robot name="camera1" 
     xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:macro name="camera1">
+    <xacro:macro name="camera1" params="position">
         <joint name="camera_link_joint" type="fixed">
             <axis xyz="0 1 0" />
-            <origin xyz="1.05 0.0 0.35" rpy="0 0 0"/>
+            <origin xyz="${position}" rpy="0 0 0"/>
             <!-- <origin xyz="1.05 0.0 0.35" rpy="0 0 0"/> -->
             <parent link="chassis"/>
             <child link="camera_link"/>

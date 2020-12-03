@@ -52,7 +52,7 @@
                     <range>
                         <min>0.10</min>
                         <max>20.0</max>
-                        <resolution>0.03</resolution>
+                        <resolution>0.03</resolution> <!-- Distance Resolution -->
                     </range>
                     <noise>
                         <type>gaussian</type>

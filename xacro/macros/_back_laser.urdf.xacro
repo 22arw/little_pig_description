@@ -15,14 +15,14 @@
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <cylinder radius=".05" length="0.04"/>
+                    <cylinder radius=".055" length="0.051"/>
                 </geometry>
             </collision>
       
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <cylinder radius=".05" length="0.04"/>
+                    <cylinder radius=".055" length="0.051"/>
                 </geometry>
             </visual>
       
@@ -51,7 +51,7 @@
                     <range>
                         <min>0.10</min>
                         <max>20.0</max>
-                        <resolution>0.03</resolution>
+                        <resolution>0.03</resolution> <!-- Distance Resolution -->
                     </range>
                     <noise>
                         <type>gaussian</type>

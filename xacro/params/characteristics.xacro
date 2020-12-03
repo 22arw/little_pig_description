@@ -34,8 +34,8 @@
     <xacro:property name="traverse_max_speed" value="4.785"/> <!-- units of m/s 4.785-->
 
     <!-- Module Properties (Positions relative to chassis) -->
-    <xacro:property name="front_laser_position" value="1.05 0.0 0.35" />
-    <xacro:property name="back_laser_position" value="-0.8 0.0 0.5" />
+    <xacro:property name="front_laser_position" value="1.05 0.0 0.038" />
+    <xacro:property name="back_laser_position" value="-0.8 0.0 0.13" />
     <xacro:property name="imu_position" value="0 0 0.19"/>
     <xacro:property name="camera_position" value="1.05 0.0 0.35"/>
 
